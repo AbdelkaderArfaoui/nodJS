@@ -1,0 +1,46 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+
+<h1 style="text-align:center;">List des Produits</h1>
+    <hr/>
+<table border="1" style="margin:auto;">
+        
+        <tr>
+            <td>libelle</td>
+            <td>prix</td>
+            <td>description</td>
+            <td>Quantite</td>
+            <td>stock</td>
+            <td>Supprimer</td>
+            <td>Notifier Admin</td>
+            
+        </tr>
+        {% for p in products %}
+        <tr>
+            <td>{{p.libelle}}</td>
+            <td>{{p.prix}}</td>
+            <td>{{p.Description}}</td>
+            <td>{{p.quantite}}</td>
+            <td>{{p.inStock}}</td>
+            <td><a href="http://localhost:3000/products/deleteProduct/{{p._id}}">supprimer</a></td>
+            <td><button onclick="sendNotification()">notifier</button></td>
+            
+           
+        </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+       function sendNotification(){
+        var socket = io('http://localhost:3000');
+        var notification = "your product will be deleted because it is out of stock";
+        socket.emit('notification', notification);
+        // window.setTimeout(function(){
+        //     window.location.href=url;
+        // },1000)
+    }
+       
+    </script>
+
+{% endblock %}
